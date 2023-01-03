@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Filter using Javascript</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .list {
+        text-transform: capitalize;
+      }
+    </style>
+    <script src="data.js"></script>
+  </head>
+  <body>
+    <section>
+      <div id="nav"></div>
+      <script>
+        var html = "<ul><li class='list active' data-filter='all'>All</li>";
+
+        for (var i = 1; i < rowsCat.length; i++) {
+          let rowCatName = rowsCat[i].name;
+          html += "<li  class='list' data-filter=" + `${rowCatName}` + ">";
+          html += rowsCat[i].name;
+          html += "</li>";
+        }
+        html += "</ul>";
+        document.getElementById("nav").innerHTML = html;
+      </script>
+
+      <div id="data"></div>
+      <script>
+        var html = '<div class="product">';
+
+        for (var i = 0; i < rowsData.length; i++) {
+          let rowsDataName = rowsData[i].name;
+          let rowsDataImage = rowsData[i].image;
+
+          html += '<div class="itemBox" data-item=' + `${rowsDataName}` + ">";
+          html +=
+            '<img src="./images/' +
+            `${rowsDataImage}.jpg` +
+            '" alt=' +
+            `${rowsDataName}` +
+            ' srcset="" />';
+          html += "</div>";
+        }
+        html += "</div>";
+        document.getElementById("data").innerHTML = html;
+      </script>
+    </section>
+
+    <script>
+      let list = document.querySelectorAll(".list");
+      let itemBox = document.querySelectorAll(".itemBox");
+
+      for (let i = 0; i < list.length; i++) {
+        list[i].addEventListener("click", function () {
+          for (let j = 0; j < list.length; j++) {
+            list[j].classList.remove("active");
+          }
+          this.classList.add("active");
+
+          let dataFilter = this.getAttribute("data-filter");
+
+          for (let k = 0; k < itemBox.length; k++) {
+            itemBox[k].classList.remove("active");
+            itemBox[k].classList.add("hide");
+
+            if (
+              itemBox[k].getAttribute("data-item") == dataFilter ||
+              dataFilter == "all"
+            ) {
+              itemBox[k].classList.remove("hide");
+              itemBox[k].classList.add("active");
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
